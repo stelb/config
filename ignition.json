@@ -1,10 +1,7 @@
 {
   "ignition": {
-    "config": {},
-    "timeouts": {},
-    "version": "2.1.0"
+    "version": "3.1.0"
   },
-  "networkd": {},
   "passwd": {
     "users": [
       {
@@ -14,7 +11,5 @@
         ]
       }
     ]
-  },
-  "storage": {},
-  "systemd": {}
+  }
 }
