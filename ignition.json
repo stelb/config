@@ -11,5 +11,14 @@
         ]
       }
     ]
-  }
+  },
+    "systemd": {
+      "units": [
+        {
+          "name": "set-hostname.service",
+          "enabled": true,
+          "contents": "[Unit]\nDescription=Set the hostname\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/hostnamectl set-hostname coreos-$(cat /sys/class/dmi/id/product_uuid)\n\n[Install]\nWantedBy=multi-user.target\n"
+        }
+      ]
+    }  
 }
