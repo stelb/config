@@ -1,0 +1,47 @@
+install:
+  device: "/dev/sda"
+  reboot: true
+  auto: true
+
+stages:
+  initramfs:
+    - name: "Setup hostname"
+      hostname: "kairos-server"
+    - name: "add users"
+      users:
+        kairos:
+          passwd: "kairos"
+          groups:
+            - "admin"
+        deploy:
+          passwd: "deploy"
+          groups: 
+            - "admin"
+
+  network:
+    - name: "Setup users"
+      authorized_keys:
+        kairos:
+          - github:stelb
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYx9ZlDZkShRl4lHyrvy8G32O8wr+Z52TzN0s6IGGfnfGnRvgPbGYcIJ9vfrI14e+D2gAf7aqcqc6qOclYsLnu4rJafISmLKWWy16pl3bE64jBJatQswlcNAq4VC9wVixj3zU7/N2IDFhsdw02OwNWn1SI+oKSDiDVa0YphGGN2t0z4OhvAhDbq30GkS72auF6AOlp3nSu1INH8Q7r8pnVYHUAF1Nk1Y0/CdApZ9ecvkd0ZJlPbSmg0712liccDSXGioFWB5Aa3iJHhlENMuzC5cQML5RJoyZc2GvIqSmkr3olc16QwKu0JlAhbjjxd7PHk0eUWjNl+tcyvtP2KPsB"
+        deploy:
+          - github:stelb
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYx9ZlDZkShRl4lHyrvy8G32O8wr+Z52TzN0s6IGGfnfGnRvgPbGYcIJ9vfrI14e+D2gAf7aqcqc6qOclYsLnu4rJafISmLKWWy16pl3bE64jBJatQswlcNAq4VC9wVixj3zU7/N2IDFhsdw02OwNWn1SI+oKSDiDVa0YphGGN2t0z4OhvAhDbq30GkS72auF6AOlp3nSu1INH8Q7r8pnVYHUAF1Nk1Y0/CdApZ9ecvkd0ZJlPbSmg0712liccDSXGioFWB5Aa3iJHhlENMuzC5cQML5RJoyZc2GvIqSmkr3olc16QwKu0JlAhbjjxd7PHk0eUWjNl+tcyvtP2KPsB"
+
+kairos:
+  network_token: b3RwOgogIGRodDoKICAgIGludGVydmFsOiA5MjIzMzcyMDM2ODU0Nzc1ODA3CiAgICBrZXk6IElaMzZMRkoyT05BTlpJUTdNSVQ2RjVHSExHRFBIN1VTN1hQV01PSUMyWkRVVUI3N0hEMkEKICAgIGxlbmd0aDogMzIKICBjcnlwdG86CiAgICBpbnRlcnZhbDogOTIyMzM3MjAzNjg1NDc3NTgwNwogICAga2V5OiBZNVZPQk5UTVFDNVdHV0dUWVNITVk3T1VFS0pXNUpDN1BVVTVCUjZEUzZMVEM2UzVCNE9RCiAgICBsZW5ndGg6IDMyCnJvb206IFZGT0tFU05NQklESFlMSlZUU0NVWU1EUzVIWlNYRkxEUjVCM1BFQjUzN1lPSllRUFlUNVEKcmVuZGV6dm91czogSkFqeFZOV09vRFF1dWNuem1CaGVWZ3BnQm9PeXlPbHMKbWRuczogSU96d2VERVJaTEhtR2ZhYXd1YWhVc3doQ2tzZWdvWnkKbWF4X21lc3NhZ2Vfc2l6ZTogMjA5NzE1MjAK
+  role: "master"
+
+vpn:
+  # EdgeVPN environment options
+  DHCP: "false"
+  ADDRESS: "10.159.0.2/24"  
+
+k3s:
+  enabled: true
+  args:
+    - "--disable"
+    - "servicelb"
+  env:
+    K3S_TOKEN: "K10a05b5614d85d6c6a4b0e822d097eda20419990df3c4e66a13b728d9365eb729e::server:41bf95119febf44a3fa8a1c59eafd013"
+
